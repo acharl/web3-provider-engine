@@ -109,11 +109,21 @@ Web3ProviderEngine.prototype.removeProvider = function(source) {
 
 Web3ProviderEngine.prototype.send = function(payload) {
   console.log("JGD", payload)
-  // return {
-  //   id: payload.id,
-  //   jsonrpc: "2.0",
-  //   result: "1"
-  // }
+  const self = this
+  self._ready.await(function() {
+    if (Array.isArray(payload)) {
+      // handle batch
+      map(payload, self._handleAsync.bind(self), cb)
+    } else {
+      // handle single
+      self._handleAsync(payload, cb)
+    }
+  })
+  return {
+    id: payload.id,
+    jsonrpc: "2.0",
+    result: "1"
+  }
 
   // throw new Error('Andy2')
 }
