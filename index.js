@@ -108,18 +108,6 @@ Web3ProviderEngine.prototype.removeProvider = function(source) {
 }
 
 Web3ProviderEngine.prototype.send = function(payload) {
-  const ethQuery = new EthQuery(this._provider)
-  const initialNetwork = this.getNetworkState()
-  ethQuery.sendAsync({ method: "net_version" }, (err, network) => {
-    const currentNetwork = this.getNetworkState()
-    if (initialNetwork === currentNetwork) {
-      if (err) {
-        return this.setNetworkState("loading")
-      }
-      log.info("web3.getNetwork returned " + network)
-      this.setNetworkState(network, type)
-    }
-  })
   console.log("JGD", payload)
   // return {
   //   id: payload.id,
