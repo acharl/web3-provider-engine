@@ -107,8 +107,7 @@ Web3ProviderEngine.prototype.removeProvider = function(source) {
 }
 
 Web3ProviderEngine.prototype.send = function(payload) {
-  return "0x4E9ce36E442e55EcD9025B9a6E0D88485d628A67"
-  throw new Error("Web3ProviderEngine does not support synchronous requests.")
+  throw new Error("JGD")
 }
 
 Web3ProviderEngine.prototype.sendAsync = function(payload, cb) {
