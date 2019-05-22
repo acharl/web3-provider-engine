@@ -6,6 +6,7 @@ const map = require("async/map")
 const eachSeries = require("async/eachSeries")
 const Stoplight = require("./util/stoplight.js")
 const cacheUtils = require("./util/rpc-cache-utils.js")
+const EthQuery = require("eth-query")
 const createPayload = require("./util/create-payload.js")
 const noop = function() {}
 
@@ -107,12 +108,24 @@ Web3ProviderEngine.prototype.removeProvider = function(source) {
 }
 
 Web3ProviderEngine.prototype.send = function(payload) {
-  console.log(payload)
-  return {
-    id: payload.id,
-    jsonrpc: "2.0",
-    result: "1"
-  }
+  const ethQuery = new EthQuery(this._provider)
+  const initialNetwork = this.getNetworkState()
+  ethQuery.sendAsync({ method: "net_version" }, (err, network) => {
+    const currentNetwork = this.getNetworkState()
+    if (initialNetwork === currentNetwork) {
+      if (err) {
+        return this.setNetworkState("loading")
+      }
+      log.info("web3.getNetwork returned " + network)
+      this.setNetworkState(network, type)
+    }
+  })
+  console.log("JGD", payload)
+  // return {
+  //   id: payload.id,
+  //   jsonrpc: "2.0",
+  //   result: "1"
+  // }
 
   // throw new Error('Andy2')
 }
