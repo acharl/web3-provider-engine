@@ -107,7 +107,14 @@ Web3ProviderEngine.prototype.removeProvider = function(source) {
 }
 
 Web3ProviderEngine.prototype.send = function(payload) {
-  throw new Error("JGD")
+  console.log(payload)
+  return {
+    id: payload.id,
+    jsonrpc: "2.0",
+    result: "1"
+  }
+
+  // throw new Error('Andy2')
 }
 
 Web3ProviderEngine.prototype.sendAsync = function(payload, cb) {
